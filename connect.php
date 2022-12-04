@@ -4,32 +4,32 @@ $user = 'root';
 $password = 'root';
 
 try {
-    $pdo = new PDO($dsn, $user, $password);
 
-    $sql = 'CREATE TABLE IF NOT EXISTS users (
-        id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(60) NOT NULL,
-        furigana VARCHAR(60) NOT NULL,
-        email VARCHAR(255) NOT NULL,
-        age INT(11),
-        address VARCHAR(255)
-    )';
-    
-    $pdo->query($sql);
+$pdo = new PDO($dsn, $user, $password);
+
+$sql = 'SELECT id, name FROM users';
+$pdo->query($sql);
+
+$stmt = $pdo->query($sql);
+
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
     echo '接続成功です！';
 } catch (PDOException $e) {
-    exit('接続に失敗しました！' . $e->getMessage());
-}
 
+    echo '接続失敗です！<br>';
+
+    exit($e->getMessage());
+}
 ?>
 
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHPとDATABASE</title>
+    <title>–PHPとDATABASE–</title>
 </head>
 <body>
     
