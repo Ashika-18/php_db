@@ -1,3 +1,4 @@
+<!-- connect.php -->
 <?php
 $dsn = 'mysql:dbname=php_db;host=localhost;charset=utf8mb4';
 $user = 'root';
