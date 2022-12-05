@@ -1,3 +1,36 @@
+<?php
+$dsn = 'mysql:dbname=php_db;host=localhost;charset=utf8mb4';
+$user = 'root';
+$password = 'root';
+
+if (isset($_POST['submit'])) {
+    try {
+        $pdo = new PDO($dsn, $user, $password);
+
+        $sql = '
+            INSERT INTO users (name, furigana, email, age, address)
+            VALUES (:name, :furigana, :email, :age, :address)
+        ';
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->bindValue(':name', $_POST['user_name'], PDO::PARAM_STR);
+        $stmt->bindValue(':furigana', $_POST['user_furigana'], PDO::PARAM_STR);
+        $stmt->bindValue(':email', $_POST['user_email'], PDO::PARAM_STR);
+        $stmt->bindValue(':age', $_POST['user_age'], PDO::PARAM_INT);
+        $stmt->bindValue(':address', $_POST['user_address'], PDO::PARAM_STR);
+
+        echo '接続成功です！';
+        $stmt->execute();
+
+        header('Location: select.php');
+    } catch (PDOException $e) {
+        echo '接続失敗です！';
+        exit($e->getMessage());
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
