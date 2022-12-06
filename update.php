@@ -30,6 +30,29 @@ if (isset($_POST['submit'])) {
     }
 }
 
+if (isset($_GET['id'])) {
+    try {
+        $pdo = new PDO($dsn, $user, $password);
+
+        $sql = 'SELECT * FROM users WHERE id = :id';
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user === FALSE) {
+            exit('idパラメータの値が不正です！');
+        }
+    } catch (PDOException $e) {
+        exit($e->getMessage());
+    }
+} else {
+    exit('idパラメータの値が存在しません！');
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -47,19 +70,19 @@ if (isset($_POST['submit'])) {
     <form action="update.php" method="post">
         <div>
             <label for="user_name">お名前<span>【必須】</span></label>
-            <input type="text" name="user_name" maxlength="60" required>
+            <input type="text" name="user_name" value="<?= $user['name']?>" cmaxlength="60" required>
 
             <label for="user_furigana">ふりがな<span>【必須】</span></label>
-            <input type="text" name="user_furigana" maxlength="60" required>
+            <input type="text" name="user_furigana" value="<?= $user['furigana']?>" maxlength="60" required>
 
             <label for="user_email">メールアドレス<span>【必須】</span></label>
-            <input type="email" name="user_email" maxlength="255" required>
+            <input type="email" name="user_email" value="<?= $user['email']?>" maxlength="255" required>
 
             <label for="user_age">年齢</label>
-            <input type="number" name="user_age" min="13" max="130">
+            <input type="number" name="user_age" value="<?= $user['age']?>" min="13" max="130">
 
             <label for="user_address">住所</label>
-            <input type="text" name="user_address" maxlength="255">
+            <input type="text" name="user_address" value="<?= $user['address']?>" maxlength="255">
         </div>
         <button type="submit" name="submit" value="update">更新</button>
     </form>
