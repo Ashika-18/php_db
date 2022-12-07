@@ -14,9 +14,9 @@
             }
 
             if ($order === 'asc') {
-                $sql = 'SELECT id, name, age FROM users ORDER BY age ASC';
+                $sql = 'SELECT id, name, age FROM users ORDER BY email ASC';
             } elseif ($order === 'desc') {
-                $sql = 'SELECT id, name, age FROM users ORDER BY age DESC';
+                $sql = 'SELECT id, name, age FROM users ORDER BY email DESC';
             } else {
                 $sql = 'SELECT id, name, age FROM users ORDER BY id';
             }
