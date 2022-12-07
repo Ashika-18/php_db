@@ -7,7 +7,19 @@
         try {
             $pdo = new PDO($dsn, $user, $password);
 
-            $sql = 'SELECT id, name, age FROM users';
+            if (isset($_GET['order'])) {
+                $order = $_GET['order'];
+            } else {
+                $order = NULL;
+            }
+
+            if ($order === 'asc') {
+                $sql = 'SELECT id, name, age FROM users ORDER BY age ASC';
+            } elseif ($order === 'desc') {
+                $sql = 'SELECT id, name, age FROM users ORDER BY age DESC';
+            } else {
+                $sql = 'SELECT id, name, age FROM users ORDER BY id';
+            }
 
             $stmt = $pdo->query($sql);
 
